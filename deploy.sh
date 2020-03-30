@@ -15,8 +15,4 @@ mkdir -p "${rootPublicHtmlDir}"
 
 cp -Rf "${publicHtmlDir}"/* "${rootPublicHtmlDir}"/
 
-## Copy toollabs description
-printf "Copying description...\n"
-cp -f .description ~/.description
-
 printf "Done!\n"
