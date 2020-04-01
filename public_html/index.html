@@ -126,14 +126,30 @@
 			data: {
 				actions: ["encode", "decode"],
 				selectedAlg: "encode",
-				inputText: ""
+				inputText: "",
+				encoder: new TextEncoder(),
+				decoder: new TextDecoder()
 			},
 			methods: {
 				procText() {
 					if (!this.inputText)
 						return "";
+					try {
+						if (this.selectedAlg === "encode")
+							return window.btoa(String.fromCharCode(...this.encoder.encode(this.inputText)));
+						else {
+							const decoded = window.atob(this.inputText);
+							const bytes = new Uint8Array(decoded.length);
+							for (let i = 0; i < bytes.length; i++)
+								bytes[i] = decoded.charCodeAt(i);
 
-					return this.selectedAlg === "encode" ? window.btoa(this.inputText) : window.atob(this.inputText);
+							return this.decoder.decode(bytes);
+						}
+					}
+					catch (e) {
+						console.log(e);
+						return `Invalid input unable to ${this.selectedAlg}`;
+					}
 				}
 			}
 		});
